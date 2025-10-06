@@ -39,7 +39,7 @@ const emit = defineEmits(['close', 'edit', 'delete']);
             class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-40 p-4"
         >
             <div
-                class="bg-primary w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden border border-secondary/10"
+                class="bg-primary w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[80vh] overflow-hidden border border-secondary/10"
             >
                 <!-- Header -->
                 <div class="px-8 py-6 bg-gradient-to-r from-secondary/5 to-secondary/10 border-b border-secondary/10">

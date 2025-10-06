@@ -6,7 +6,7 @@
             class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
         >
             <div
-                class="bg-primary rounded-lg shadow-lg w-11/12 max-w-md max-h-[90vh] flex flex-col p-6 relative"
+                class="bg-primary rounded-lg shadow-lg w-11/12 max-w-md max-h-[80vh] flex flex-col p-6 relative"
             >
                 <div class="flex justify-between items-center mb-4 flex-shrink-0">
                     <h2 class="text-xl font-bold text-secondary">
