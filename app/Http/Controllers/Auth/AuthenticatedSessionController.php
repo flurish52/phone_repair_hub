@@ -7,6 +7,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -27,14 +29,42 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
 
+    public function store(LoginRequest $request)
+    {
+        $this->authenticate($request);
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('dashboard'));
     }
+
+    protected function authenticate($request)
+    {
+        $login = $request->input('login');
+
+        $user = \App\Models\User::where('email', $login)
+            ->orWhere('phone', $login)
+            ->first();
+
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
+            throw ValidationException::withMessages([
+                'login' => __('auth.failed'),
+            ]);
+        }
+
+        Auth::login($user, $request->boolean('remember'));
+    }
+
+
+
+//    public function store(LoginRequest $request): RedirectResponse
+//    {
+//        $request->authenticate();
+//
+//        $request->session()->regenerate();
+//
+//        return redirect()->intended(route('dashboard', absolute: false));
+//    }
 
     /**
      * Destroy an authenticated session.
