@@ -1,6 +1,7 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
 import AuthNavBar from "@/Components/AuthNavBar.vue";
+import Navigation from "@/Components/Mobile/Navigation.vue";
 </script>
 
 <template>
@@ -10,9 +11,10 @@ import AuthNavBar from "@/Components/AuthNavBar.vue";
         <nav class="sticky top-0 flex justify-between items-center px-6 py-4 shadow-md z-40
             bg-secondary text-primary md:bg-primary md:text-secondary">
 
-            <div class="font-bold text-lg md:ml-64">
+            <div class="font-medium text-base md:font-bold md:text-lg md:ml-64 truncate">
                 {{ $page.props.auth.user.name }}
             </div>
+
             <div>
                 <Link
                     :href="route('logout')"
@@ -29,21 +31,10 @@ import AuthNavBar from "@/Components/AuthNavBar.vue";
             <slot />
         </main>
 
-
     </div>
+        <Navigation />
 </template>
 
 <style>
-.bg-primary { background-color: #fdfdf7; }
-.bg-secondary { background-color: #536b7b; }
-.text-primary { color: #fdfdf7; }
-.text-secondary { color: #536b7b; }
-
-@media (min-width: 768px) {
-    .md\:bg-primary { background-color: #fdfdf7; }
-    .md\:bg-secondary { background-color: #536b7b; }
-    .md\:text-primary { color: #fdfdf7; }
-    .md\:text-secondary { color: #536b7b; }
-}
 
 </style>

@@ -10,7 +10,7 @@
             </Link>
 
             <Link
-                href="/prices"
+                href="/accessories"
                 class="text-left py-2 px-4 rounded hover:bg-primary hover:text-secondary transition-colors duration-300 flex items-center space-x-2">
                 <span>💰</span>
                 <span>Prices</span>
