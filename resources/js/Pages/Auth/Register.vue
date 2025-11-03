@@ -13,6 +13,7 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     address: '',
+    role: '',
 });
 
 const submit = () => {
@@ -91,7 +92,7 @@ const submit = () => {
             <div class="flex-1 flex pt-12 items-center justify-center p-6 lg:p-8 overflow-y-auto">
                 <div class="w-full max-w-md">
                     <!-- Form header -->
-                    <div class="mb-6 lg:mb-8 mt-32 md:mt-96">
+                    <div class="mb-6 lg:mb-8 mt-64 md:mt-96">
                         <h1 class="text-3xl lg:text-4xl font-bold text-slate-800 mb-2">Create Account</h1>
                         <p class="text-slate-600 text-sm leading-relaxed">
                             Keep track of every device, log repairs quickly, and manage pick-ups with ease.
@@ -156,6 +157,30 @@ const submit = () => {
                                 />
                                 <InputError class="text-sm text-red-600 mt-2" :message="form.errors.address" />
                             </div>
+                            <!-- Role -->
+                            <div class="space-y-2">
+                                <InputLabel for="role" value="Role" class="text-sm font-medium text-gray-700" />
+
+                                <select
+                                    id="role"
+                                    v-model="form.role"
+                                    required
+                                    :class="[
+      'w-full px-4 py-2.5 border rounded-lg text-base bg-gray-50 focus:bg-white focus:outline-none focus:ring-3 transition-all',
+      form.errors.role
+        ? 'border-red-500 focus:ring-red-200'
+        : 'border-gray-300 focus:ring-[#536b7b]/20 focus:border-[#536b7b]'
+    ]"
+                                >
+                                    <option value="" disabled selected>Select a role</option>
+                                    <option value="vendor">Vendor</option>
+                                    <option value="repairer">Engineer</option>
+                                    <option value="user">None</option>
+                                </select>
+
+                                <InputError class="text-sm text-red-600 mt-2" :message="form.errors.role" />
+                            </div>
+
 
                             <!-- Password -->
                             <div class="space-y-2">

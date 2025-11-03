@@ -44,6 +44,8 @@
                     <!-- Filters Section -->
                     <div class="mb-6">
                         <Filters
+                            :statuses="statuses"
+                            :sorts="sorts"
                             :current-status="filters.status"
                             :current-sort="filters.sort"
                             @update:status="(val) => filters.status = val"
@@ -191,6 +193,17 @@ const repairs = ref(props.items)
 const showStatusModal = ref(false)
 const selectedRepair = ref({})
 
+
+const sorts = [
+    { key: 'newest', label: 'Newest first' },
+    { key: 'oldest', label: 'Oldest first' }
+]
+const statuses = [
+    { key: 'all', label: 'All' },
+    { key: 'picked', label: 'Picked' },
+    { key: 'pending', label: 'Pending' },
+    { key: 'ready', label: 'Ready' },
+]
 const viewRepair = (repair) => {
     repairToView.value = repair
     showViewRepairModal.value = true

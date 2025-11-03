@@ -3,13 +3,17 @@
 
         <!-- Left sidebar button (Categories) -->
         <button
-            class="mr-4 p-2 rounded bg-primary text-secondary"
+            class="mr-4 p-2 rounded bg-primary md:hidden  text-secondary"
             @click="sidebarOpenCategories = true"
         >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
+
+        </button>
+        <button class="hidden md:block"
+        >
         </button>
 
         <!-- Left Overlay -->
@@ -22,28 +26,27 @@
         <!-- Left Sidebar (Categories) -->
         <SideBar
             title="Categories"
+            urlPrefix="categories"
             :items="$page.props.categories"
             @close="sidebarOpenCategories = false"
-            class="fixed top-0 left-0 h-full z-50 rounded-md shadow-md w-64 transform transition-transform duration-300 bg-white"
+            class="fixed top-0 left-0 md:left-8 h-full z-50 rounded-md shadow-md w-64 transform transition-transform duration-300 bg-white"
             :class="sidebarOpenCategories ? 'translate-x-0' : '-translate-x-full'"
         />
 
-        <!-- Tabs -->
-        <div class="flex overflow-x-auto">
-            <button
-                v-for="(tab, index) in tabs"
-                :key="index"
-                @click="$emit('update:activeTab', tab)"
-                :class="[
-          'px-4 py-2 font-medium text-sm rounded-t-lg transition-colors duration-200',
-          tab === activeTab
-            ? 'bg-secondary text-primary border-t border-x border-gray-200'
-            : 'bg-primary-light text-secondary-dark hover:bg-primary'
-        ]"
-            >
-                {{ tab }}
-            </button>
-        </div>
+        <Link
+            v-for="(tab, index) in tabs"
+            :key="index"
+            :href="route('products.tab', { tab })"
+            :class="[
+                'px-4 py-2 font-medium text-sm md:text-base rounded-t-lg transition-colors duration-200',
+                tab === activeTab
+                    ? 'bg-secondary text-primary border-t border-x border-gray-200'
+                    : 'bg-primary-light text-secondary-dark hover:bg-primary'
+            ]"
+        >
+<!--            @click.prevent="$emit('update:activeTab', tab)"-->
+            {{ tab }}
+        </Link>
 
         <!-- Right sidebar button (Brands) -->
         <button
@@ -66,9 +69,10 @@
         <!-- Right Sidebar (Brands) -->
         <SideBar
             title="Top brands"
+            urlPrefix="brands"
             :items="$page.props.brands"
             @close="sidebarOpenBrands = false"
-            class="fixed top-0 right-0 h-full z-50 rounded-md shadow-md w-64 bg-white transform transition-transform duration-300"
+            class="fixed  top-0 right-0 h-full z-50 rounded-md shadow-md w-64 bg-white transform transition-transform duration-300"
             :class="sidebarOpenBrands ? 'translate-x-0' : 'translate-x-full'"
         />
 
@@ -79,6 +83,7 @@
 <script setup>
 import SideBar from "@/Components/Mobile/SideBar.vue";
 import {ref} from 'vue';
+import {Link} from "@inertiajs/vue3";
 
 const sidebarOpenCategories = ref(false)
 const sidebarOpenBrands = ref(false)

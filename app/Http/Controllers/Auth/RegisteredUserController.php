@@ -31,12 +31,14 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'phone' => 'required|string|max:20|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'address' => 'nullable|string|max:500',
+            'role' => 'required|string|max:500',
         ]);
 
         $user = User::create([
@@ -48,6 +50,8 @@ class RegisteredUserController extends Controller
             'last_login' => Carbon::now(),
             'is_active' => true,
         ]);
+
+        $user->assignRole($request->role);
 
         event(new Registered($user));
 

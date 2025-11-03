@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -41,4 +42,38 @@ class Product extends Model
     {
         return $this->belongsToMany(Tag::class, 'product_tag');
     }
+
+
+
+    protected static function booted()
+    {
+        static::creating(function ($product) {
+            if ($product->name && $product->user_id) {
+                $baseSlug = Str::slug($product->name);
+                $slug = $baseSlug;
+                $count = 1;
+
+                while (self::where('user_id', $product->user_id)->where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $count++;
+                }
+
+                $product->slug = $slug;
+            }
+        });
+
+        static::updating(function ($product) {
+            if ($product->name && $product->user_id) {
+                $baseSlug = Str::slug($product->name);
+                $slug = $baseSlug;
+                $count = 1;
+
+                while (self::where('user_id', $product->user_id)->where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $count++;
+                }
+
+                $product->slug = $slug;
+            }
+        });
+    }
+
 }

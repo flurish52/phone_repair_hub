@@ -71,7 +71,7 @@
                                 <select v-model="form.category_id"
                                         class="w-full px-4 py-3 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary">
                                     <option value="">Select category</option>
-                                    <option v-for="category in $page.props.categories" :key="category.id"
+                                    <option v-for="category in $page.props.categoriesForForm" :key="category.id"
                                             :value="category.id">{{ category.name }}
                                     </option>
                                 </select>

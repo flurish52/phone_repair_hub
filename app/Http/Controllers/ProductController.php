@@ -10,8 +10,10 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\ProductVariant;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -24,6 +26,31 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function vendorViewProduct(User $vendor, Product $product)
+    {
+        // Ensure the authenticated vendor owns the product
+        if (Auth::id() !== $vendor->id || $product->user_id !== $vendor->id) {
+            abort(403, 'Unauthorized access');
+        }
+
+        // Fetch full product details
+        $product = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
+            ->where('id', $product->id)
+            ->where('user_id', $vendor->id)
+            ->firstOrFail();
+
+        // Decode variant attributes
+        $product->variants->each(function ($variant) {
+            $variant->attributes = json_decode($variant->attributes, true) ?? [];
+        });
+
+        // Return single product object, not array
+        return inertia('Product/View', [
+            'product' => $product
+        ]);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -58,7 +85,6 @@ class ProductController extends Controller
         $product = Product::create([
             'name' => $request->name,
             'user_id' => Auth::id(),
-            'slug' => $slug,
             'description' => $request->description,
             'brand_id' => $request->brand_id,
             'category_id' => $request->category_id,
@@ -151,7 +177,6 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-//        dd($request->all());
         DB::beginTransaction();
 
         $data = $request->validated();
@@ -161,7 +186,6 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $data['name'],
-            'slug' => $slug,
             'description' => $data['description'] ?? $product->description,
             'brand_id' => $data['brand_id'],
             'category_id' => $data['category_id'],
@@ -204,8 +228,33 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if (auth()->id() !== $product->user_id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        foreach ($product->images as $image) {
+            if ($image->image_path && Storage::exists($image->image_path)) {
+                Storage::delete($image->image_path);
+            }
+            $image->delete();
+        }
+
+        foreach ($product->variants as $variant) {
+            foreach ($variant->images as $variantImage) {
+                if ($variantImage->image_path && Storage::exists($variantImage->image_path)) {
+                    Storage::delete($variantImage->image_path);
+                }
+                $variantImage->delete();
+            }
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully'], 200);
     }
+
+
+
     private function handleProductImages(Product $product, array $images = [], array $deleted = [])
     {
         if (!empty($deleted)) {

@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -50,6 +51,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if ($user->name) {
+                $baseSlug = Str::slug($user->name);
+                $slug = $baseSlug;
+                $count = 1;
+
+                while (self::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $count++;
+                }
+
+                $user->slug = $slug;
+            }
+        });
     }
 
 

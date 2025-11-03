@@ -17,10 +17,14 @@ return new class extends Migration
             $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->text('description')->nullable();
             $table->timestamps();
+
+            $table->unique(['user_id', 'slug']);
         });
+
+
 
     }
 

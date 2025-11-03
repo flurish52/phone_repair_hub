@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Repairs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,11 +12,27 @@ class RepairsController extends Controller
 {
     public function index()
     {
+        $repairs = Repairs::where('user_id', Auth::id())
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        $products = Product::with('category', 'user', 'brand', 'tags', 'variants.images', 'images')
+            ->where('user_id', Auth::id())
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        $products->each(function ($product) {
+            $product->variants->each(function ($variant) {
+                $variant->attributes = json_decode($variant->attributes, true) ?? [];
+            });
+        });
+
         return Inertia::render('Dashboard', [
-            'repairs' => Repairs::orderBy('created_at', 'DESC')->where('user_id', Auth::id())
-                ->get(),
+            'repairs' => $repairs,
+            'products' => $products,
         ]);
     }
+
 
 
     public function updateStatus(Request $request, Repairs $repair)

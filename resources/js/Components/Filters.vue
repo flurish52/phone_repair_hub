@@ -2,20 +2,14 @@
 import { ref } from 'vue'
 const props = defineProps({
     currentStatus: { type: String, default: 'all' },
-    currentSort: { type: String, default: 'newest' }
+    currentSort: { type: String, default: 'newest' },
+    sorts: Array,
+    statuses: Array,
+
 })
 const emit = defineEmits(['update:status', 'update:sort', 'update:search', ])
 const searchQuery = ref('')
-const statuses = [
-    { key: 'all', label: 'All' },
-    { key: 'pending', label: 'Pending' },
-    { key: 'ready', label: 'Ready' },
-    { key: 'picked', label: 'Picked' }
-]
-const sorts = [
-    { key: 'newest', label: 'Newest first' },
-    { key: 'oldest', label: 'Oldest first' }
-]
+
 const selectStatus = (status) => {
     emit('update:status', status)
 }
