@@ -26,7 +26,7 @@
                                 : '/images/placeholder.png'
                         "
                         :alt="product.name"
-                        class="w-full h-32 object-cover"
+                        class="w-full h-44 md:h-64 object-cover"
                     />
                     <div class="p-4 relative">
                         <p class="text-gray-800 font-semibold text-sm line-clamp-2">

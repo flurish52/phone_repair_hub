@@ -12,7 +12,7 @@
 
         <div v-if="images.length" class="grid grid-cols-3 gap-2 bg-primary p-2 rounded-md mt-2">
             <div v-for="(img, index) in images" :key="img.id" class="relative border p-1">
-                <img :src="img.preview" class="w-full h-24 object-cover" />
+                <img :src="img.preview" class="w-full h-44 object-cover" />
                 <button @click="removeImage(index)" class="absolute top-1 right-1 bg-red-500 text-white text-xs px-1">X</button>
                 <button
                     v-if="!img.primary"

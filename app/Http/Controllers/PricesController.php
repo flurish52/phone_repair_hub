@@ -23,7 +23,7 @@ class PricesController extends Controller
         } else {
             $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
                 ->inRandomOrder()
-                ->paginate(50);
+                ->paginate(52);
             $vendors = collect(); // empty collection since we're showing products
             $activeTab = 'Accessories'; // normalize tab name
         }

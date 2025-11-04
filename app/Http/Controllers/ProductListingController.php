@@ -29,8 +29,9 @@ class ProductListingController extends Controller
 
         // load vendor products
         $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
+            ->where('user_id', $vendor->id)
             ->inRandomOrder()
-            ->paginate(50);;
+            ->paginate(52);;
 
         return Inertia::render('Welcome', [
             'vendor' => $vendor,
@@ -62,7 +63,7 @@ class ProductListingController extends Controller
         $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
             ->where('category_id', $category->id)
             ->inRandomOrder()
-            ->paginate(20); // adjust pagination if needed
+            ->paginate(52); // adjust pagination if needed
 
         $vendors = User::role('vendor')
             ->withCount('products')
@@ -83,7 +84,7 @@ class ProductListingController extends Controller
 
         $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
             ->where('brand_id', $brand->id)
-            ->paginate(20);
+            ->paginate(52);
 
         return inertia::render('Welcome', [
             'brand' => $brand,
@@ -119,7 +120,7 @@ class ProductListingController extends Controller
         } else {
             $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
                 ->inRandomOrder()
-                ->paginate(50);
+                ->paginate(52);
             $vendors = collect();
             $activeTab = 'Accessories';
         }

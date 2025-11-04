@@ -195,13 +195,40 @@
                     </div>
 
                     <div class="flex justify-end pt-6 border-t border-secondary">
-                        <button type="submit" :disabled="form.processing"
-                                class="px-8 py-3 bg-secondary-dark text-white rounded-lg hover:bg-secondary disabled:opacity-50 transition">
-                            {{
-                                form.processing ? (editingProduct ? 'Updating...' : 'Creating...') : (editingProduct ? 'Update Product' : 'Create Product')
-                            }}
+                        <button
+                            type="submit"
+                            :disabled="processing"
+                            class="flex items-center justify-center px-8 py-3 bg-secondary-dark text-white rounded-lg hover:bg-secondary disabled:opacity-50 transition"
+                        >
+                            <span v-if="processing" class="flex items-center gap-2">
+                              <svg
+                                  class="animate-spin h-5 w-5 text-white"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                              >
+                                <circle
+                                    class="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    stroke-width="4"
+                                ></circle>
+                                <path
+                                    class="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                ></path>
+                              </svg>
+                              {{ editingProduct ? 'Updating...' : 'Creating...' }}
+                            </span>
+                                                    <span v-else>
+                              {{ editingProduct ? 'Update Product' : 'Create Product' }}
+                            </span>
                         </button>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -216,6 +243,7 @@ import {Link} from "@inertiajs/vue3";
 import axios from 'axios'
 import {ref} from "vue";
 
+    let processing =  ref(false)
 const props = defineProps({
     editingProduct: Object
 })
@@ -302,6 +330,7 @@ function removeAttribute(variantIndex, attrIndex) {
 
 
 function submit() {
+    processing.value = true
     const formData = new FormData()
     formData.append('name', form.name)
     formData.append('description', form.description)
@@ -386,6 +415,7 @@ function submit() {
                 alert('Network error. Try again.')
             }
         })
+    processing.value = false
 }
 
 </script>

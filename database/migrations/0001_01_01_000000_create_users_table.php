@@ -22,6 +22,8 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->text('address')->nullable();
             $table->json('settings')->nullable();
+            $table->string('username')->nullable()->unique();
+            $table->string('slug')->nullable()->unique();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

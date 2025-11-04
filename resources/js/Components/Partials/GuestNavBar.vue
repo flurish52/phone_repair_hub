@@ -33,11 +33,11 @@
                 </Link>
             </template>
             <template v-else class="flex justify-between items-center px-6">
-                <span class="text-gray-700 font-medium">
+                <Link href="/" class="text-gray-700 font-medium">
                     {{ $page.props.auth.user.name.length > 10
                     ? $page.props.auth.user.name.substring(0, 10) + '...'
                     : $page.props.auth.user.name }}
-                </span>
+                </Link>
 
                 <Link href="/dashboard" class="flex bg-secondary p-1 rounded-md text-primary hover:text-gray-900">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">

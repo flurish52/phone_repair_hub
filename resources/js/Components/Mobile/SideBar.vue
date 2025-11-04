@@ -15,6 +15,7 @@
 
         <!-- Category List -->
         <ul class="flex-1 overflow-y-auto p-3 space-y-1">
+            <Link href="/" class="px-3 py-2" >All products</Link>
             <SideBarItemsList
                 v-for="item in items"
                 :key="item.id"
@@ -27,6 +28,7 @@
 
 <script setup>
 import SideBarItemsList from "@/Components/Mobile/SideBarItemsList.vue";
+import {Link} from "@inertiajs/vue3";
 
 defineProps({
     items: Array,
