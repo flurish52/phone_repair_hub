@@ -11,7 +11,7 @@
 
         <div
             v-if="items.data && items.data.length"
-            class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full"
+            class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-full"
         >
             <div
                 v-for="product in items.data"

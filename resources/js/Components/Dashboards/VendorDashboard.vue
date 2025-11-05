@@ -1,5 +1,10 @@
 <template>
-    <div class="flex min-h-screen bg-primary">
+    <div class="flex flex-col min-h-screen bg-primary">
+
+        <CopyLink
+            v-if="$page.props.auth.user.role === 'vendor'"
+            class="md:self-end" :storeSlug="`${$page.props.auth.user.slug}`" />
+
         <main class="flex-1 md:ml-56 p-1 md:p-6 lg:p-8 pb-16 md:pb-4">
             <div class="max-w-7xl mx-auto">
 
@@ -134,6 +139,7 @@ import { ref, watch } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import Filters from '@/Components/Filters.vue'
 import axios from 'axios'
+import CopyLink from "@/Components/Vendor/CopyLink.vue";
 
 const props = defineProps({
     items: Array

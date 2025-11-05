@@ -44,33 +44,31 @@ let imageId = 0
 watch(
     () => props.existingImages,
     (val) => {
-        if (val && val.length) {
-            images.value = val.map((img, i) => {
-                let preview = null
-                if (typeof img === 'string') {
-                    preview = img.includes('http') ? img : `/storage/${img}`
-                } else if (img?.image_path) {
-                    preview = img.image_path.startsWith('http') ? img.image_path : `/storage/${img.image_path}`
-                } else if (img?.preview) {
-                    preview = img.preview
-                }
+        if (!val) return
+        // Avoid resetting if it’s already same reference
+        if (val === images.value) return
 
-                return {
-                    id: img.id || imageId++,
-                    file: img.file?? null,
-                    preview,
-                    primary: i === 0,
-                    position: i,
-                    is_existing: !!img.id
-                }
-            })
-            emitUpdate()
-        } else {
-            images.value = []
-        }
+        const mapped = val.map((img, i) => {
+            let preview = img.preview
+            if (!preview) {
+                if (img.image_path) preview = img.image_path.startsWith('http') ? img.image_path : `/storage/${img.image_path}`
+                else if (typeof img === 'string') preview = img.includes('http') ? img : `/storage/${img}`
+            }
+            return {
+                id: img.id || imageId++,
+                file: img.file || null,
+                preview,
+                primary: i === 0,
+                position: i,
+                is_existing: !!img.id
+            }
+        })
+
+        images.value = [...mapped]
     },
     { immediate: true }
 )
+
 
 function handleFiles(event) {
     const files = Array.from(event.target.files)
@@ -85,11 +83,10 @@ function handleDrop(e) {
 
 async function addFiles(files) {
     for (const file of files) {
-        const compressed = await compress(file)
         images.value.push({
             id: Date.now() + Math.floor(Math.random() * 1000),
-            file: compressed,
-            preview: URL.createObjectURL(compressed),
+            file,
+            preview: URL.createObjectURL(file),
             primary: images.value.length === 0,
             position: images.value.length,
             is_existing: false
@@ -97,6 +94,7 @@ async function addFiles(files) {
     }
     emitUpdate()
 }
+
 
 function compress(file) {
     return new Promise((resolve) => {

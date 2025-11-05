@@ -128,7 +128,7 @@
                                                class="w-full px-3 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary"/>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-secondary mb-2">Engineer
+                                        <label class="block text-sm font-medium text-secondary mb-2">Discount
                                             Price</label>
                                         <input v-model="variant.engineer_price" type="number" step="0.01"
                                                placeholder="0.00"
@@ -330,7 +330,6 @@ function removeAttribute(variantIndex, attrIndex) {
 
 
 function submit() {
-    processing.value = true
     const formData = new FormData()
     formData.append('name', form.name)
     formData.append('description', form.description)
@@ -395,6 +394,7 @@ function submit() {
 
     const method = props.editingProduct ? 'post' : 'post'
 
+    processing.value = true
     axios({
         method,
         url,
@@ -415,7 +415,9 @@ function submit() {
                 alert('Network error. Try again.')
             }
         })
-    processing.value = false
+        .finally(() => {
+            processing.value = false
+        })
 }
 
 </script>
