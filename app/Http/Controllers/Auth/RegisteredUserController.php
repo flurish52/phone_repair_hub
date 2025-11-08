@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -41,8 +42,12 @@ class RegisteredUserController extends Controller
             'role' => 'required|string|max:500',
         ]);
 
+        $firstName = Str::lower(Str::before($request->name, ' '));
+
         $user = User::create([
             'name' => $request->name,
+            'username' => $firstName,
+            'slug' => Str::slug($request->name),
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address ?? null,

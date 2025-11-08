@@ -20,7 +20,7 @@
 
         <div class="flex min-h-screen bg-primary">
             <!-- Main content -->
-            <main class="flex-1 md:ml-56 p-1 md:p-6 lg:p-8 pb-16 md:pb-4">
+            <main class="flex-1  p-1 md:p-6 lg:p-8 pb-16 md:pb-4">
                 <div class="max-w-7xl mx-auto">
                     <!-- Header Section -->
                     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

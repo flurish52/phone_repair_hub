@@ -27,12 +27,13 @@
         <SideBar
             title="Categories"
             urlPrefix="categories"
-            :items="$page.props.categories"
+            :items="vendor_cats"
             @close="sidebarOpenCategories = false"
             class="fixed top-0 left-0 md:left-8 h-full z-50 rounded-md shadow-md w-64 transform transition-transform duration-300 bg-white"
             :class="sidebarOpenCategories ? 'translate-x-0' : '-translate-x-full'"
         />
 
+        <SearchComponent class=" "/>
         <Link
             v-for="(tab, index) in tabs"
             :key="index"
@@ -44,7 +45,6 @@
                     : 'bg-primary-light text-secondary-dark hover:bg-primary'
             ]"
         >
-<!--            @click.prevent="$emit('update:activeTab', tab)"-->
             {{ tab }}
         </Link>
 
@@ -70,7 +70,7 @@
         <SideBar
             title="Top brands"
             urlPrefix="brands"
-            :items="$page.props.brands"
+            :items="vendor_brands"
             @close="sidebarOpenBrands = false"
             class="fixed  top-0 right-0 h-full z-50 rounded-md shadow-md w-64 bg-white transform transition-transform duration-300"
             :class="sidebarOpenBrands ? 'translate-x-0' : 'translate-x-full'"
@@ -84,13 +84,16 @@
 import SideBar from "@/Components/Mobile/SideBar.vue";
 import {ref} from 'vue';
 import {Link} from "@inertiajs/vue3";
+import SearchComponent from "@/Components/Partials/SearchComponent.vue";
 
 const sidebarOpenCategories = ref(false)
 const sidebarOpenBrands = ref(false)
 
 defineProps({
     tabs: {type: Array, required: true},
-    activeTab: {type: String, required: true}
+    activeTab: {type: String, required: true},
+    vendor_brands: Array,
+    vendor_cats: Array,
 })
 
 defineEmits(['update:activeTab'])

@@ -5,7 +5,7 @@
             v-if="$page.props.auth.user.role === 'vendor'"
             class="md:self-end" :storeSlug="`${$page.props.auth.user.slug}`" />
 
-        <main class="flex-1 md:ml-56 p-1 md:p-6 lg:p-8 pb-16 md:pb-4">
+        <main class="flex-1 p-1 md:p-6 lg:p-8 pb-16 md:pb-4">
             <div class="max-w-7xl mx-auto">
 
                 <!-- Header -->

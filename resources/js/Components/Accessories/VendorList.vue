@@ -32,7 +32,7 @@
                     class="flex items-center gap-4 flex-1"
                 >
                     <img
-                        :src="vendor.image_url || '/images/placeholder.png'"
+                        :src="`/storage/${vendor.avatar}` || '/images/placeholder.png'"
                         :alt="vendor.name"
                         class="w-16 h-16 object-cover rounded-lg"
                     />
@@ -90,9 +90,4 @@ defineProps({
     }
 });
 
-// function goToPage(url) {
-//     if (url) {
-//         Inertia.get(url, {}, { preserveState: true });
-//     }
-// }
 </script>

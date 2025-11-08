@@ -27,7 +27,7 @@ import Navigation from "@/Components/Mobile/Navigation.vue";
             </div>
         </nav>
 
-        <main class="p-6">
+        <main class="p-6 md:ml-56">
             <slot />
         </main>
 

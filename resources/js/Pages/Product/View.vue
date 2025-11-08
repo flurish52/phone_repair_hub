@@ -1,6 +1,6 @@
 <template>
     <AuthenticatedLayout>
-        <div class="max-w-6xl md:ml-64 mx-auto p-1 pb-16 md:p-8">
+        <div class="max-w-6xl mx-auto p-1 pb-16 md:p-8">
             <!-- Product Header -->
             <div class="flex flex-col md:flex-row gap-6 border-b pb-6 mb-6">
                     <div class="w-full md:w-1/2">
@@ -95,7 +95,7 @@
                 Back to Listings
             </Link>
             <Link
-                :href="`/product/update/${product.id}`"
+                :href="`/product/update/${product.id}/edit`"
                 class="bg-secondary text-xs md:text-base text-primary px-4 py-2 rounded-lg shadow-md hover:bg-primary hover:text-secondary text-center"
             >
                 Edit product

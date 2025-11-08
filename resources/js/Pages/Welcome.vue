@@ -1,10 +1,13 @@
 <template>
         <!-- Fixed Tabs at top -->
-    <GuestNavBar />
+    <GuestLayout>
+        <GuestNavBar />
     <div class="fixed top-12 my-2 left-0  md:pl-64 right-0 z-40 bg-primary shadow-md">
         <Tabs
-                :tabs="['Accessories', 'Vendors' ]"
+                :tabs="['Products', 'Vendors' ]"
                 :activeTab="currentTab"
+                :vendor_brands="vendor_brands"
+                :vendor_cats="vendor_cats"
         />
     </div>
     <div class="mt-24">
@@ -24,6 +27,7 @@
     </nav>
 </div>
 </footer>
+    </GuestLayout>
 </template>
 
 <script setup>
@@ -34,6 +38,7 @@ import VendorList from '@/Components/Accessories/VendorList.vue';
 import ProductList from '@/Components/Accessories/ProductList.vue';
 import GuestNavBar from "@/Components/Partials/GuestNavBar.vue";
 import HeroSlider from "@/Components/Home/HeroSlider.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 
 const props = defineProps({
     selectedProduct: Object,
@@ -41,19 +46,12 @@ const props = defineProps({
     vendor: Object,
     products: Array,
     activeTab: String,
+    vendor_brands: Array,
+    vendor_cats: Array,
 })
 
-const currentTab = ref(props.activeTab ?? 'Accessories'
+const currentTab = ref(props.activeTab ?? 'products'
 );
-
-// Example data
-const selectedProduct = ref(props.selectedProduct ?? null);
-
-
-const clsoseViewProductModal = () => {
-    selectedProduct.value = null
-    window.history.replaceState(null, '', '/accessories')
-}
 
 const tabComponents = {
     Vendors: VendorList,

@@ -12,6 +12,8 @@
             <Link href="/" class="text-xl md:ml-64 font-semibold text-gray-800">Phixobel</Link>
         </h1>
 
+<!--        <SearchComponent class=" md:hidden"/>-->
+
         <!-- Right side -->
         <div class="flex items-center  space-x-4">
             <template
