@@ -24,8 +24,11 @@ class StoreProductRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'brand_id' => 'required|integer|exists:brands,id',
-            'category_id' => 'required|integer|exists:categories,id',
+            'brand_id' => 'nullable|integer|exists:brands,id',
+            'category_id' => 'nullable|integer|exists:categories,id',
+            'condition' => 'required|string',
+            'negotiable' => 'required|boolean',
+
 
             'tags' => 'nullable|array',
             'tags.*' => 'string|exists:tags,name',

@@ -29,14 +29,16 @@ class PricesController extends Controller
 
         if ($activeTab === 'Vendors') {
             $vendors = User::role('vendor')
-                ->withCount('products')
-                ->inRandomOrder()
+                ->withCount('products') // counts products per vendor
+                ->orderBy('products_count', 'desc') // uses the dynamic count
                 ->paginate(20);
-            $products = collect(); // empty collection since we're showing vendors
+            $products = collect();
         } else {
-            $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
+            $products = Product::with(['category', 'user', 'brand', 'tags', 'images', 'variants'
+            => fn($q) => $q->where('status', 'active')->with('images')])
                 ->inRandomOrder()
                 ->paginate(52);
+
             $vendors = collect(); // empty collection since we're showing products
             $activeTab = 'Products'; // normalize tab name
         }

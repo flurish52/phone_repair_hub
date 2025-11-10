@@ -51,7 +51,7 @@
                                 <select v-model="form.brand_id"
                                         class="w-full px-4 py-3 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary">
                                     <option value="">Select brand</option>
-                                    <option v-for="brand in $page.props.brands" :key="brand.id" :value="brand.id">
+                                    <option v-for="brand in brandsForForm" :key="brand.id" :value="brand.id">
                                         {{ brand.name }}
                                     </option>
                                 </select>
@@ -87,6 +87,28 @@
                                     </option>
                                 </select>
                             </div>
+                            <div>
+                                <label class="block text-sm font-medium text-secondary mb-2">Negotiable?</label>
+                                <select
+                                    v-model="form.negotiable"
+                                        required
+                                        class="w-full px-4 py-3 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary">
+                                    <option value="" selected disabled>Please select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-secondary mb-2">Condition</label>
+                                <select
+                                    v-model="form.condition"
+                                        required
+                                        class="w-full px-4 py-3 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary">
+                                    <option value="" selected disabled>Please select</option>
+                                    <option value="used">Used</option>
+                                    <option value="brand_new">Brand new</option>
+                                </select>
+                            </div>
                         </div>
 
                         <!-- Product Images -->
@@ -106,7 +128,7 @@
                         <div class="flex items-center justify-between mb-2">
                             <div class="flex items-center gap-3">
                                 <div class="w-2 h-6 bg-green-600 rounded-full"></div>
-                                <h3 class="text-lg font-semibold text-secondary">Product Variants</h3>
+                                <h3 class="text-lg font-semibold text-secondary">Product Variantions</h3>
                             </div>
                         </div>
 
@@ -142,7 +164,7 @@
                                                class="w-full px-3 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary"/>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-secondary mb-2">Stock</label>
+                                        <label class="block text-sm font-medium text-secondary mb-2">Stock <span class="text-sm ">(units available)</span></label>
                                         <input v-model="variant.stock" type="number" placeholder="Quantity"
                                                class="w-full px-3 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary"/>
                                     </div>
@@ -150,8 +172,8 @@
                                         <label class="block text-sm font-medium text-secondary mb-2">Status</label>
                                         <select v-model="variant.status"
                                                 class="w-full px-3 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary">
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inactive</option>
+                                            <option value="active">Still available</option>
+                                            <option value="inactive">Unavailable</option>
                                         </select>
                                     </div>
                                 </div>
@@ -245,7 +267,9 @@ import {ref} from "vue";
 
     let processing =  ref(false)
 const props = defineProps({
-    editingProduct: Object
+    editingProduct: Object,
+    categoriesForForm: Array,
+    brandsForForm: Array
 })
 
 
@@ -270,6 +294,8 @@ const form = useForm({
     description: props.editingProduct?.description || '',
     brand_id: props.editingProduct?.brand_id || '',
     category_id: props.editingProduct?.category_id || '',
+    negotiable: props.editingProduct?.is_negotiable || '',
+    condition: props.editingProduct?.condition || '',
     tags: props.editingProduct?.tags?.map(t => t.name) || [],
     product_images: props.editingProduct?.images?.map((img, i) => ({
         id: img.id,
@@ -293,7 +319,7 @@ const form = useForm({
         preview: []
     })) || [{
         name: '',
-        engineer_price: '',
+        engineer_price: 0,
         regular_price: '',
         stock: 0,
         status: 'active',
@@ -306,8 +332,10 @@ const form = useForm({
 function addVariant() {
     form.variants.push({
         name: '',
-        engineer_price: '',
+        engineer_price: 0,
         regular_price: '',
+        condition: '',
+        negotiable: '',
         stock: 0,
         status: 'active',
         attributes: [{key: '', value: ''}],
@@ -335,6 +363,8 @@ function submit() {
     formData.append('description', form.description)
     formData.append('brand_id', form.brand_id)
     formData.append('category_id', form.category_id)
+    formData.append('condition', form.condition)
+    formData.append('negotiable', form.negotiable)
     if (deletedProductImages.value) {
         deletedProductImages.value.forEach((id) => {
             formData.append('product_deleted_images[]', id)

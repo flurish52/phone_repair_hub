@@ -58,8 +58,16 @@ class ProductController extends Controller
     public function create()
     {
         return inertia::render('Product/Create', [
+            'categoriesForForm' => Category::with('children')
+                ->where('user_id', Auth::id())
+                ->orderBy('name')
+                ->get(),
 
-    ]);
+            'brandsForForm' => Brand::orderBy('name')
+                ->where('user_id', Auth::id())
+                ->get(),
+
+        ]);
     }
 
     /**
@@ -85,6 +93,8 @@ class ProductController extends Controller
         $product = Product::create([
             'name' => $request->name,
             'user_id' => Auth::id(),
+            'condition' => $request->condition,
+            'is_negotiable' => $request->negotiable,
             'description' => $request->description,
             'brand_id' => $request->brand_id,
             'category_id' => $request->category_id,
@@ -115,15 +125,22 @@ class ProductController extends Controller
                 'status' => $variantData['status'],
                 'attributes' => json_encode($variantData['attributes'] ?? []),
             ]);
-
             $variantImages = [];
-            foreach ($variantData['images'] as $vImg) {
-                $filePath = $vImg['file']->store('variants', 'public');
-                $variantImages[] = $variant->images()->create([
-                    'image_path' => $filePath,
-                    'is_primary' => $vImg['primary'] ?? false,
-                    'position' => $vImg['position'] ?? 0,
-                ]);
+
+            if (!empty($variantData['images'])) {
+                foreach ($variantData['images'] as $vImg) {
+                    if (!isset($vImg['file'])) {
+                        continue;
+                    }
+
+                    $filePath = $vImg['file']->store('variants', 'public');
+
+                    $variantImages[] = $variant->images()->create([
+                        'image_path' => $filePath,
+                        'is_primary' => $vImg['primary'] ?? false,
+                        'position' => $vImg['position'] ?? 0,
+                    ]);
+                }
             }
 
             $createdVariants[] = [
@@ -144,7 +161,6 @@ class ProductController extends Controller
     }
 
 
-
     /**
      * Display the specified resource.
      */
@@ -158,8 +174,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        if (Auth::id() !== $product->user_id)
-        {
+        if (Auth::id() !== $product->user_id) {
             return response(['message' => 'Unauthorized'], 403);
         }
         $product->load('variants.images', 'images', 'tags');
@@ -167,7 +182,15 @@ class ProductController extends Controller
             $variant->attributes = json_decode($variant->attributes, true) ?? [];
         });
         return Inertia::render('Product/Create', [
-            'editingProduct' => $product
+            'editingProduct' => $product,
+            'categoriesForForm' => Category::with('children')
+                ->where('user_id', Auth::id())
+                ->orderBy('name')
+                ->get(),
+
+            'brandsForForm' => Brand::orderBy('name')
+                ->where('user_id', Auth::id())
+                ->get(),
         ]);
     }
 
@@ -186,6 +209,8 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $data['name'],
+            'condition' => $data['condition'],
+            'is_negotiable' => $data['negotiable'],
             'description' => $data['description'] ?? $product->description,
             'brand_id' => $data['brand_id'],
             'category_id' => $data['category_id'],
@@ -221,8 +246,6 @@ class ProductController extends Controller
     }
 
 
-
-
     /**
      * Remove the specified resource from storage.
      */
@@ -254,7 +277,6 @@ class ProductController extends Controller
     }
 
 
-
     private function handleProductImages(Product $product, array $images = [], array $deleted = [])
     {
         if (!empty($deleted)) {
@@ -278,6 +300,7 @@ class ProductController extends Controller
             }
         }
     }
+
     private function handleVariantImages(ProductVariant $variant, array $images = [], array $deleted = [])
     {
         if (!empty($deleted)) {
@@ -309,19 +332,24 @@ class ProductController extends Controller
         return Str::slug($name);
     }
 
-    private function generateSku(string $productName, int $brandId, int $categoryId): string
+    private function generateSku(string $productName, ?int $brandId, ?int $categoryId): string
     {
-        $brand = Brand::find($brandId)?->name ?? 'BRD';
-        $category = Category::find($categoryId)?->name ?? 'CAT';
+        $brandName = $brandId ? Brand::find($brandId)?->name : null;
+        $categoryName = $categoryId ? Category::find($categoryId)?->name : null;
+
+        $brand = $brandName ? substr($brandName, 0, 3) : 'BRD';
+        $category = $categoryName ? substr($categoryName, 0, 3) : 'CAT';
 
         $skuBase = strtoupper(
-            substr($brand, 0, 3) . '-' .
-            substr($category, 0, 3) . '-' .
+            $brand . '-' .
+            $category . '-' .
             Str::slug($productName, '-')
         );
 
         return $skuBase . '-' . rand(1000, 9999);
     }
+
+
     private function handleTags(Product $product, array $tags)
     {
         $tagIds = [];

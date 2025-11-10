@@ -12,10 +12,9 @@
                 ✕
             </button>
         </div>
-
         <!-- Category List -->
-        <ul class="flex-1 overflow-y-auto p-3 space-y-1">
-            <Link href="/" class="px-3 py-2" >All products</Link>
+        <ul class="flex-1 overflow-y-auto p-3 space-y-1 shadow-md">
+            <Link  :href="`/${topUrl}`" class="px-3 py-2" >All {{ title }}</Link>
             <SideBarItemsList
                 v-for="item in items"
                 :key="item.id"
@@ -34,6 +33,7 @@ defineProps({
     items: Array,
     title: String,
     urlPrefix: String,
+    topUrl: String,
 })
 
 defineEmits(["close"])

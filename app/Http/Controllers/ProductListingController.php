@@ -38,10 +38,13 @@ class ProductListingController extends Controller
         }
 
         // load vendor products
-        $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
-            ->where('user_id', $vendor->id)
+        $products = Product::with(
+            ['category', 'user', 'brand', 'tags', 'images',
+                'variants' => fn($q) => $q->where('status', 'active')
+                    ->with('images')])->where('user_id', $vendor->id)
             ->inRandomOrder()
-            ->paginate(52);;
+            ->paginate(52);
+
 
         return Inertia::render('Welcome', [
             'vendor' => $vendor,
@@ -86,10 +89,17 @@ class ProductListingController extends Controller
     {
         $category = Category::where('slug', $categorySlug)->firstOrFail();
 
-        $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
+//        $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
+//            ->where('category_id', $category->id)
+//            ->inRandomOrder()
+//            ->paginate(52);
+        $products = Product::with(['category', 'user', 'brand', 'tags', 'images',
+            'variants' => fn($q) => $q->where('status', 'active')
+                ->with('images')])
             ->where('category_id', $category->id)
             ->inRandomOrder()
             ->paginate(52);
+
 
         $vendor_cats = Category::orderBy('name', 'DESC')
             ->with(['children', 'children.children'])
@@ -168,7 +178,16 @@ class ProductListingController extends Controller
             $products = collect();
             $activeTab = 'Vendors';
         } else {
-            $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
+            $products = Product::with([
+                'category',
+                'user',
+                'brand',
+                'tags',
+                'images',
+                'variants' => function ($query) {
+                    $query->where('status', 'active')->with('images');
+                }
+            ])
                 ->inRandomOrder()
                 ->paginate(52);
             $vendors = collect();
@@ -180,17 +199,11 @@ class ProductListingController extends Controller
             ->withCount('products')
             ->where('user_id', null)
             ->get();
-        $vendor_brands = Brand::orderBy('name', 'DESC')
-            ->withCount('products')
-            ->where('user_id', null)
-            ->get();
-
         return Inertia::render('Welcome', [
             'products' => $products,
             'vendors' => $vendors,
             'activeTab' => $activeTab,
             'vendor_cats' => $vendor_cats,
-            'vendor_brands' => $vendor_brands,
         ]);
 
     }

@@ -57,7 +57,7 @@
                                 <th class="px-1 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">S/N</th>
                                 <th class="px-1 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Name</th>
                                 <th class="px-1 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">Total Stock</th>
-                                <th class="px-1 hidden md:table-cell py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Avg. Engineer Price</th>
+<!--                                <th class="px-1 hidden md:table-cell py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Avg. Engineer Price</th>-->
                                 <th class="px-1 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Avg. Regular Price</th>
                                 <th class="px-1 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
                                 <th class="px-1 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
@@ -81,9 +81,9 @@
                                 </td>
 
                                 <!-- Price range -->
-                                <td class="px-1 py-4 hidden md:table-cell text-sm text-gray-700">
-                                    ₦{{ minEngPrice(product) }} - ₦{{ maxEngPrice(product) }}
-                                </td>
+<!--                                <td class="px-1 py-4 hidden md:table-cell text-sm text-gray-700">-->
+<!--                                    ₦{{ minEngPrice(product) }} - ₦{{ maxEngPrice(product) }}-->
+<!--                                </td>-->
                                 <td class="px-1 py-4 text-sm text-gray-700">
                                     ₦{{ minPrice(product) }} - ₦{{ maxPrice(product) }}
                                 </td>

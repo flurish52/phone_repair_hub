@@ -32,11 +32,33 @@ class AuthenticatedSessionController extends Controller
 
     public function store(LoginRequest $request)
     {
-        $this->authenticate($request);
+        $auth = $this->authenticate($request);
+
+        if ($auth instanceof \Illuminate\Http\JsonResponse) {
+            return $auth;
+        }
+
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Authentication failed.',
+            ], 401);
+        }
+
+        $user->update(['last_login' => now()]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Login successful.',
+            'redirect' => route('dashboard'),
+        ]);
     }
+
+
 
     protected function authenticate($request)
     {
@@ -44,27 +66,30 @@ class AuthenticatedSessionController extends Controller
 
         $user = \App\Models\User::where('email', $login)
             ->orWhere('phone', $login)
+            ->orWhere('username', $login)
             ->first();
 
-        if (!$user || !Hash::check($request->input('password'), $user->password)) {
-            throw ValidationException::withMessages([
-                'login' => __('auth.failed'),
-            ]);
+        if (!$user) {
+            return response()->json([
+                'error' => true,
+                'message' => 'User not found',
+            ], 404);
         }
 
+        if (!Hash::check($request->input('password'), $user->password)) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Invalid credentials',
+            ], 401);
+        }
+
+
         Auth::login($user, $request->boolean('remember'));
+        return $user;
     }
 
 
 
-//    public function store(LoginRequest $request): RedirectResponse
-//    {
-//        $request->authenticate();
-//
-//        $request->session()->regenerate();
-//
-//        return redirect()->intended(route('dashboard', absolute: false));
-//    }
 
     /**
      * Destroy an authenticated session.

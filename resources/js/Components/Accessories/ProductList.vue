@@ -31,7 +31,7 @@
                         />
                     </div>
                     <div class="p-4 relative">
-                        <p class="text-primary font-semibold text-sm line-clamp-2 transition-colors duration-200">
+                        <p class="text-secondary font-semibold text-sm line-clamp-2 transition-colors duration-200">
                             {{ product.name }}
                         </p>
 
@@ -40,14 +40,14 @@
                             {{ product.category?.name || 'Uncategorized' }}
                         </p>
                         <div class="flex flex-col md:flex-row justify-between items-center mt-3">
+<!--                            <p-->
+<!--                                v-if="$page.props.auth.user && ($page.props.auth.user.role === 'engineer' ||-->
+<!--                                $page.props.auth.user.role === 'vendor')"-->
+<!--                                class="font-medium text-secondary"-->
+<!--                            >-->
+<!--                                Engr. ₦{{ product?.variants[0]?.engineer_price }}-->
+<!--                            </p>-->
                             <p
-                                v-if="$page.props.auth.user && ($page.props.auth.user.role === 'engineer' ||
-                                $page.props.auth.user.role === 'vendor')"
-                                class="font-medium text-secondary"
-                            >
-                                Engr. ₦{{ product?.variants[0]?.engineer_price }}
-                            </p>
-                            <p v-else
                                class="font-medium text-secondary"
                             >
                                 Price: ₦{{ product?.variants[0]?.regular_price }}

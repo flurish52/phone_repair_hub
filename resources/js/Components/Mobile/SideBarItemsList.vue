@@ -1,10 +1,10 @@
 <template>
     <li>
         <div
-            class="flex items-center justify-between px-3 py-2 rounded hover:bg-secondary hover:text-primary cursor-pointer transition"
+            class="flex items-center justify-between px-3 py-2 border-b-2 rounded hover:bg-secondary hover:text-primary cursor-pointer transition"
         >
             <Link :href="`/${urlPrefix}/${item.slug}`">
-                {{ item.name }}
+                {{ item.name }} <span  v-if="item?.products_count" class="text-xs italic">{{item?.products_count}} ads</span>
             </Link>
 
             <button

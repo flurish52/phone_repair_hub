@@ -6,7 +6,7 @@
         <Tabs
                 :tabs="['Products', 'Vendors' ]"
                 :activeTab="currentTab"
-                :vendor_brands="vendor_brands"
+                :vendors_list="vendors_list.data"
                 :vendor_cats="vendor_cats"
         />
     </div>
@@ -17,16 +17,7 @@
         <component :is="currentComponent" :vendor="vendor" :items="currentTab === 'Vendors' ? vendors : products"
         />
     </div>
-<footer class=" bg-secondary text-primary py-3">
-<div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
-    <p class="text-sm">&copy; {{ new Date().getFullYear() }} Phixobel</p>
-    <nav class="flex gap-4 mt-3 md:mt-0">
-        <a href="#" class="text-primary hover:underline">Privacy</a>
-        <a href="#" class="text-primary hover:underline">Terms</a>
-        <a href="#" class="text-primary hover:underline">Contact</a>
-    </nav>
-</div>
-</footer>
+
     </GuestLayout>
 </template>
 
@@ -39,6 +30,7 @@ import ProductList from '@/Components/Accessories/ProductList.vue';
 import GuestNavBar from "@/Components/Partials/GuestNavBar.vue";
 import HeroSlider from "@/Components/Home/HeroSlider.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
+import Navigation from "@/Components/Mobile/Navigation.vue";
 
 const props = defineProps({
     selectedProduct: Object,
@@ -46,7 +38,7 @@ const props = defineProps({
     vendor: Object,
     products: Array,
     activeTab: String,
-    vendor_brands: Array,
+    vendors_list: Array,
     vendor_cats: Array,
 })
 

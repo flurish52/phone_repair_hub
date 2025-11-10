@@ -11,7 +11,7 @@ class Product extends Model
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
 
-    protected $fillable = ['name','user_id','slug','description','brand_id','category_id'];
+    protected $fillable = ['name','user_id','slug','description','brand_id','category_id', 'is_negotiable', 'condition'];
 
 
     public function variants() {

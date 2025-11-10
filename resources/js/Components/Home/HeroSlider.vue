@@ -1,8 +1,8 @@
 <template>
-    <div class="relative  w-full overflow-hidden md:rounded-xl shadow-lg">
+    <div class="relative md:pl-64  w-full h-72 overflow-hidden md:rounded-xl shadow-lg">
         <!-- Slides -->
         <div
-            class="flex transition-transform duration-700 ease-in-out"
+            class="flex transition-transform   duration-700 ease-in-out"
             :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
         >
             <div
@@ -13,10 +13,12 @@
                 <img
                     :src="slide.image"
                     :alt="slide.title"
-                    class="w-full h-64 md:h-96 object-cover"
+                    class="w-full h-full md:h-96 object-cover"
                 />
-                <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center text-white p-4">
-                    <h2 class="text-2xl md:text-4xl font-bold mb-2">{{ slide.title }}</h2>
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-start md:pt-24 items-center  text-center text-white p-4">
+                    <h2 class="text-2xl md:text-4xl font-bold mb-2 "
+                        style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);"
+                    >{{ slide.title }}</h2>
                     <p class="text-sm md:text-lg mb-4">{{ slide.subtitle }}</p>
                     <Link
                         :href="slide.link"
@@ -43,7 +45,7 @@
         </button>
 
         <!-- Indicators -->
-        <div class="absolute bottom-3 left-0 right-0 flex justify-center space-x-2">
+        <div class="absolute bottom-3 left-0 md:pl-64 right-0 flex justify-center space-x-2">
       <span
           v-for="(slide, index) in slides"
           :key="index"
@@ -61,35 +63,35 @@ import { Link } from "@inertiajs/vue3";
 
 const slides = [
     {
-        title: "Know the right price before you buy or repair.",
-        subtitle: "Compare prices and make smarter tech decisions.",
-        button: "Check Prices",
+        title: "Buy and sell locally with confidence.",
+        subtitle: "Find new and used products from trusted vendors near you.",
+        button: "Browse Products",
         image: "https://i.pinimg.com/736x/be/96/d9/be96d94c5fcfe8cedec05970843a9c38.jpg",
         link: "/accessories?tab=Accessories",
     },
-
     {
-        title: "Your phone deserves expert hands.",
-        subtitle: "Find trusted repairers near you — fast, reliable, affordable.",
-        button: "Find Repairers",
+        title: "Your local vendors at your fingertips.",
+        subtitle: "Discover food, electronics, clothing, and more from nearby sellers.",
+        button: "Explore Vendors",
         image: "https://i.pinimg.com/736x/54/b3/f0/54b3f0e6feaf2bd77ac1e009fa6185e0.jpg",
         link: "/",
     },
     {
-        title: "Upgrade your tech life.",
-        subtitle: "Shop accessories from verified vendors.",
-        button: "Browse Accessories",
+        title: "Shop exactly what you need.",
+        subtitle: "Compare prices, view product details, and meet the seller safely.",
+        button: "Browse Products",
         image: "https://www.oteamstore.com/cdn/shop/articles/BO1.png?v=1704642596",
         link: "/accessories?tab=Accessories",
     },
     {
-        title: "Discover trusted vendors near you.",
-        subtitle: "All your favorite gadgets in one place.",
-        button: "Explore Vendors",
+        title: "Support local businesses.",
+        subtitle: "Connect directly with vendors selling food, fashion, and gadgets.",
+        button: "Find Vendors",
         image: "https://i.pinimg.com/736x/62/53/c8/6253c8f3f42ff6b312ac4c455d89d636.jpg",
         link: "/accessories?tab=Vendors",
     },
 ];
+
 
 const currentSlide = ref(0);
 let interval = null;

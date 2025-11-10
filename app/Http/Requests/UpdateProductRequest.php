@@ -24,12 +24,14 @@ class UpdateProductRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'brand_id' => 'required|integer|exists:brands,id',
-            'category_id' => 'required|integer|exists:categories,id',
+            'brand_id' => 'nullable|integer|exists:brands,id',
+            'category_id' => 'nullable|integer|exists:categories,id',
             'product_deleted_images' => 'nullable|array',
             'product_deleted_images.*' => 'integer|exists:images,id',
             'tags' => 'nullable|array',
             'tags.*' => 'string|exists:tags,name',
+            'condition' => 'required|string',
+            'negotiable' => 'required|boolean',
 
 
             'product_images' => 'array',

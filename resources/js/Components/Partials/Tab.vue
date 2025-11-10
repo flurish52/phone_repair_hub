@@ -27,26 +27,27 @@
         <SideBar
             title="Categories"
             urlPrefix="categories"
-            :items="vendor_cats"
+            topUrl="/products"
+            :items="$page.props.categories"
             @close="sidebarOpenCategories = false"
             class="fixed top-0 left-0 md:left-8 h-full z-50 rounded-md shadow-md w-64 transform transition-transform duration-300 bg-white"
             :class="sidebarOpenCategories ? 'translate-x-0' : '-translate-x-full'"
         />
 
-        <SearchComponent class=" "/>
-        <Link
-            v-for="(tab, index) in tabs"
-            :key="index"
-            :href="route('products.tab', { tab })"
-            :class="[
-                'px-4 py-2 font-medium text-sm md:text-base rounded-t-lg transition-colors duration-200',
-                tab === activeTab
-                    ? 'bg-secondary text-primary border-t border-x border-gray-200'
-                    : 'bg-primary-light text-secondary-dark hover:bg-primary'
-            ]"
-        >
-            {{ tab }}
-        </Link>
+        <SearchComponent/>
+<!--        <Link-->
+<!--            v-for="(tab, index) in tabs"-->
+<!--            :key="index"-->
+<!--            :href="route('products.tab', { tab })"-->
+<!--            :class="[-->
+<!--                'px-4 py-2 font-medium text-sm md:text-base rounded-t-lg transition-colors duration-200',-->
+<!--                tab === activeTab-->
+<!--                    ? 'bg-secondary text-primary border-t border-x border-gray-200'-->
+<!--                    : 'bg-primary-light text-secondary-dark hover:bg-primary'-->
+<!--            ]"-->
+<!--        >-->
+<!--            {{ tab }}-->
+<!--        </Link>-->
 
         <!-- Right sidebar button (Brands) -->
         <button
@@ -65,12 +66,12 @@
             @click="sidebarOpenBrands = false"
             class="fixed inset-0 bg-black/10 z-40 md:hidden transition-opacity"
         ></div>
-
         <!-- Right Sidebar (Brands) -->
         <SideBar
-            title="Top brands"
-            urlPrefix="brands"
-            :items="vendor_brands"
+            title="Vendors"
+            urlPrefix="vendor"
+            topUrl="/products?tab=Vendors"
+            :items="$page.props.vendors_list"
             @close="sidebarOpenBrands = false"
             class="fixed  top-0 right-0 h-full z-50 rounded-md shadow-md w-64 bg-white transform transition-transform duration-300"
             :class="sidebarOpenBrands ? 'translate-x-0' : 'translate-x-full'"
@@ -92,7 +93,7 @@ const sidebarOpenBrands = ref(false)
 defineProps({
     tabs: {type: Array, required: true},
     activeTab: {type: String, required: true},
-    vendor_brands: Array,
+    vendors_list: Array,
     vendor_cats: Array,
 })
 
