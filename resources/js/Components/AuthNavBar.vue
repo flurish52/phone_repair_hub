@@ -22,6 +22,7 @@ const links = [
     {label: 'Shop', href: '/', icon: '🛒'},
     {label: 'Categories', href: '/vendor/categories/get', icon: '🗂️'},
     {label: 'Brands', href: '/vendor/brands/get', icon: '🏷️'},
+    // {label: 'Socials', href: '/vendor/socials/get', icon: '🏷️'},
     {label: 'Settings', href: '/vendor/settings/get', icon: '⚙️'},
 ]
 </script>

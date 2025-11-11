@@ -5,6 +5,7 @@
         >
             <Link :href="`/${urlPrefix}/${item.slug}`">
                 {{ item.name }} <span  v-if="item?.products_count" class="text-xs italic">{{item?.products_count}} ads</span>
+                <div v-if="item?.address" class="text-xs italic font-light">{{ item.address }}</div>
             </Link>
 
             <button

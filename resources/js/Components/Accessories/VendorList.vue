@@ -7,7 +7,7 @@
 
             <!-- Browse all vendors -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-4 flex flex-col">
-                <Link href="/accessories" class="flex items-center gap-4">
+                <Link href="/" class="flex items-center gap-4">
                     <div class="w-10 h-10 bg-secondary rounded-md flex-shrink-0"></div>
                     <div class="flex-1">
                         <h2 class="text-secondary font-semibold text-base">

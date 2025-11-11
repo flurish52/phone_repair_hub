@@ -5,6 +5,7 @@ import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import TextInput from '@/Components/TextInput.vue'
+import {Link} from "@inertiajs/vue3";
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
@@ -82,7 +83,7 @@ onMounted(() => {
                 <div class="absolute inset-0 opacity-10"
                      style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
 
-                <div class="relative z-10 flex items-start justify-center p-12">
+                <div class="fixed  z-10 flex items-start justify-center p-12">
                     <div class="max-w-lg w-full space-y-8">
                         <!-- Logo/Brand -->
                         <div class="space-y-2">
@@ -90,7 +91,7 @@ onMounted(() => {
                                 <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                                 <span class="text-white text-sm font-medium">Trusted by 10,000+ users</span>
                             </div>
-                            <h1 class="flex items-center justify-start text-5xl font-bold text-white tracking-tight">
+                            <Link href="/" class="flex items-center justify-start text-5xl font-bold text-white tracking-tight">
                                 <div class="flex justify-center mb-8">
                                     <div class="flex items-center">
                                         <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center mr-3">
@@ -99,7 +100,7 @@ onMounted(() => {
                                         Phixobel
                                     </div>
                                 </div>
-                            </h1>
+                            </Link>
                         </div>
 
                         <!-- Main headline -->
@@ -164,14 +165,14 @@ onMounted(() => {
             <div class="flex-1 flex items-center justify-center p-6 lg:p-8 overflow-y-auto">
                 <div class="w-full max-w-md py-8">
                     <!-- Mobile logo -->
-                    <div class="lg:hidden flex justify-center mb-8">
+                    <Link href="/" class="lg:hidden flex justify-center mb-8">
                         <div class="flex items-center">
                             <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center mr-3">
                                 <span class="text-white font-bold text-lg">P</span>
                             </div>
                             <h1 class="text-2xl font-bold text-slate-800">Phixobel</h1>
                         </div>
-                    </div>
+                    </Link>
 
                     <div class="text-center mb-10">
                         <h1 class="text-3xl font-bold text-slate-800 mb-2">Create Account</h1>

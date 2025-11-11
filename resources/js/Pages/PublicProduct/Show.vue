@@ -109,13 +109,6 @@
                     </div>
 
                     <div class="flex gap-4 items-center text-gray-700">
-<!--                        <p v-if="-->
-<!--                            $page.props.auth.user &&-->
-<!--                            ($page.props.auth.user.role === 'vendor'-->
-<!--                            || $page.props.auth.user.role === 'engineer')"-->
-<!--                        >-->
-<!--                            Engr Price: ₦{{ variant.engineer_price }}-->
-<!--                        </p>-->
                         <p>Price: ₦{{ variant.regular_price }}</p>
                         <p>Stock: {{ variant.stock }}</p>
                     </div>
@@ -126,8 +119,25 @@
             <div class="mt-6 bg-white p-4 rounded-lg shadow-sm">
                 <h2 class="font-semibold text-secondary text-lg mb-2">Vendor details</h2>
                 <p class="font-medium text-secondary">{{ product.user?.name }}</p>
+                <p class="text-gray-600 flex items-center gap-2">
+                    Phone: {{ product.user?.phone }}
+                    <a
+                        v-if="product.user?.phone"
+                        :href="`https://wa.me/${product.user.phone}?text=${encodeURIComponent(
+                            `Hello, I saw your product ${product.name}, listing on ${siteName} and I am interested. Is it still available?`
+                            )}`"
+                        target="_blank"
+                        title="Chat on WhatsApp"
+                    >
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                            alt="WhatsApp"
+                            class="w-10 h-10"
+                        />
+                    </a>
+                </p>
+
                 <p class="text-gray-600">{{ product.user?.address }}</p>
-                <p class="text-gray-600">Phone: {{ product.user?.phone }}</p>
                 <p class="text-gray-600">Email: {{ product.user?.email }}</p>
             </div>
         </div>
@@ -147,6 +157,7 @@ const props = defineProps({
     vendor_brands: Array,
     vendor_cats: Array,
 })
+const siteName = window.location.hostname
 
 onMounted(() => {
     if (props.product.images?.length) {

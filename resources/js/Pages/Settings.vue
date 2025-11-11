@@ -63,7 +63,6 @@
 import {ref} from 'vue'
 import {useForm} from '@inertiajs/vue3'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-
 const user = defineProps({user: Object})
 
 const form = useForm({
