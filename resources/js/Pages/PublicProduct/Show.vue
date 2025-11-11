@@ -123,7 +123,7 @@
                     Phone: {{ product.user?.phone }}
                     <a
                         v-if="product.user?.phone"
-                        :href="`https://wa.me/${formatPhoneNumber('07075605763').replace('+', '')}?text=${encodeURIComponent(
+                        :href="`https://wa.me/${formatPhoneNumber(product.user.phone).replace('+', '')}?text=${encodeURIComponent(
     `Hello, I saw your product ${product.name}, listed on ${siteName} and I am interested. Is it still available?`
   )}`"
                         target="_blank"
@@ -138,8 +138,6 @@
                     </a>
 
                 </p>
-
-
 
                 <p class="text-gray-600">{{ product.user?.address }}</p>
                 <p class="text-gray-600">Email: {{ product.user?.email }}</p>
