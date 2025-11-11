@@ -123,10 +123,11 @@
                     Phone: {{ product.user?.phone }}
                     <a
                         v-if="product.user?.phone"
-                        :href="`https://wa.me/${product.user.phone}?text=${encodeURIComponent(
-                            `Hello, I saw your product ${product.name}, listing on ${siteName} and I am interested. Is it still available?`
-                            )}`"
+                        :href="`https://wa.me/${formatPhoneNumber('07075605763').replace('+', '')}?text=${encodeURIComponent(
+    `Hello, I saw your product ${product.name}, listed on ${siteName} and I am interested. Is it still available?`
+  )}`"
                         target="_blank"
+                        rel="noopener"
                         title="Chat on WhatsApp"
                     >
                         <img
@@ -135,7 +136,10 @@
                             class="w-10 h-10"
                         />
                     </a>
+
                 </p>
+
+
 
                 <p class="text-gray-600">{{ product.user?.address }}</p>
                 <p class="text-gray-600">Email: {{ product.user?.email }}</p>
@@ -164,6 +168,27 @@ onMounted(() => {
         activeImage.value = `/storage/${props.product.images[0].image_path}`
     }
 })
+
+const formatPhoneNumber = (phone) => {
+    if (!phone) return ''
+    let num = phone.toString().trim()
+
+    // Remove spaces, dashes, parentheses
+    num = num.replace(/[\s\-\(\)]/g, '')
+
+    // If it already starts with +234, return as is
+    if (num.startsWith('+234')) return num
+
+    // If it starts with 234 but no +, add +
+    if (num.startsWith('234')) return '+' + num
+
+    // If it starts with 0, replace it with +234
+    if (num.startsWith('0')) return '+234' + num.substring(1)
+
+    // If none match, assume it's a local Nigerian number
+    return '+234' + num
+}
+
 </script>
 
 <style scoped>
