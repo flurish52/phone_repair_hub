@@ -14,7 +14,7 @@ const form = ref({
     email: '',
     phone: '',
     address: '',
-    role: '',
+    role: 'vendor',
     password: '',
     password_confirmation: '',
     terms: false,
@@ -246,21 +246,21 @@ onMounted(() => {
                                 <InputError :message="errors.address" />
                             </div>
 
-                            <div>
-                                <InputLabel for="role" value="Role" class="mb-2" />
-                                <select
-                                    id="role"
-                                    v-model="form.role"
-                                    required
-                                    class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-                                >
-                                    <option value="" disabled>Select a role</option>
-                                    <option value="vendor">Vendor</option>
-                                    <option value="engineer">Engineer</option>
-                                    <option value="user">None</option>
-                                </select>
-                                <InputError :message="errors.role" />
-                            </div>
+<!--                            <div>-->
+<!--                                <InputLabel for="role" value="Role" class="mb-2" />-->
+<!--                                <select-->
+<!--                                    id="role"-->
+<!--                                    v-model="form.role"-->
+<!--                                    required-->
+<!--                                    class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"-->
+<!--                                >-->
+<!--                                    <option value="" disabled>Select a role</option>-->
+<!--                                    <option value="vendor">Vendor</option>-->
+<!--                                    <option value="engineer">Engineer</option>-->
+<!--                                    <option value="user">None</option>-->
+<!--                                </select>-->
+<!--                                <InputError :message="errors.role" />-->
+<!--                            </div>-->
 
                             <div>
                                 <InputLabel for="password" value="Password" class="mb-2" />

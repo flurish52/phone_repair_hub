@@ -52,11 +52,11 @@ Route::middleware('auth')->group(callback: function () {
     Route::delete('/product/delete/{product}', [ProductController::class, 'destroy'])->name('product.vendor.delete');
 
 
-    Route::get('/vendor/categories/get', [CategoryController::class, 'index'])->name('categoriesget');
-    Route::post('/vendor/categories/create', [CategoryController::class, 'store'])->name('categories.store');
-
-    Route::patch('/vendor/category/{category}/update', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/vendor/category/{category}/delete', [CategoryController::class, 'destroy'])->name('categories.delete');
+//    Route::get('/vendor/categories/get', [CategoryController::class, 'index'])->name('categoriesget');
+//    Route::post('/vendor/categories/create', [CategoryController::class, 'store'])->name('categories.store');
+//
+//    Route::patch('/vendor/category/{category}/update', [CategoryController::class, 'update'])->name('categories.update');
+//    Route::delete('/vendor/category/{category}/delete', [CategoryController::class, 'destroy'])->name('categories.delete');
 
 
     Route::get('/vendor/brands/get', [BrandController::class, 'index'])->name('brands.get');

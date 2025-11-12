@@ -68,13 +68,10 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-secondary mb-2">Category</label>
-                                <select v-model="form.category_id"
-                                        class="w-full px-4 py-3 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary">
-                                    <option value="">Select category</option>
-                                    <option v-for="category in $page.props.categoriesForForm" :key="category.id"
-                                            :value="category.id">{{ category.name }}
-                                    </option>
-                                </select>
+                                <CategorySelector
+                                    v-model="form.category_id"
+                                    :categories="$page.props.categories"
+                                />
                             </div>
 
                             <div>
@@ -93,9 +90,8 @@
                                     v-model="form.negotiable"
                                         required
                                         class="w-full px-4 py-3 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500 bg-primary">
-                                    <option value="" selected disabled>Please select</option>
+                                    <option value="0" selected>No</option>
                                     <option value="1">Yes</option>
-                                    <option value="0">No</option>
                                 </select>
                             </div>
                             <div>
@@ -264,6 +260,7 @@ import ImageUpload from "@/Components/Vendor/ImageUploader.vue";
 import {Link} from "@inertiajs/vue3";
 import axios from 'axios'
 import {ref} from "vue";
+import CategorySelector from "@/Components/Vendor/CategorySelector.vue";
 
     let processing =  ref(false)
 const props = defineProps({
@@ -294,7 +291,7 @@ const form = useForm({
     description: props.editingProduct?.description || '',
     brand_id: props.editingProduct?.brand_id || '',
     category_id: props.editingProduct?.category_id || '',
-    negotiable: props.editingProduct?.is_negotiable || '',
+    negotiable: props.editingProduct?.is_negotiable || 0,
     condition: props.editingProduct?.condition || '',
     tags: props.editingProduct?.tags?.map(t => t.name) || [],
     product_images: props.editingProduct?.images?.map((img, i) => ({

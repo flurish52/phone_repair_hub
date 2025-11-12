@@ -177,7 +177,7 @@ class ProductController extends Controller
         if (Auth::id() !== $product->user_id) {
             return response(['message' => 'Unauthorized'], 403);
         }
-        $product->load('variants.images', 'images', 'tags');
+        $product->load('variants.images', 'images', 'tags', 'category');
         $product->variants->each(function ($variant) {
             $variant->attributes = json_decode($variant->attributes, true) ?? [];
         });

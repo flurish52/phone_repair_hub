@@ -40,18 +40,18 @@
                             {{ product.category?.name || 'Uncategorized' }}
                         </p>
                         <div class="flex flex-col md:flex-row justify-between items-center mt-3">
-<!--                            <p-->
-<!--                                v-if="$page.props.auth.user && ($page.props.auth.user.role === 'engineer' ||-->
-<!--                                $page.props.auth.user.role === 'vendor')"-->
-<!--                                class="font-medium text-secondary"-->
-<!--                            >-->
-<!--                                Engr. ₦{{ product?.variants[0]?.engineer_price }}-->
-<!--                            </p>-->
-                            <p
-                               class="font-medium text-secondary"
+                            <div
                             >
+                                <p
+                               class="font-medium text-secondary"
+                                >
+
                                 Price: ₦{{ product?.variants[0]?.regular_price }}
-                            </p>
+                                </p>
+                                <span v-if="product.condition" class="bg-secondary/20 text-xs text-secondary-dark p-1 rounded-md">
+                                    {{ formatCondition(product.condition) }}
+                                </span>
+                            </div>
                             <button
                                 class="w-full md:w-auto mt-2 md:mt-0 border-2 border-secondary px-3 py-1.5 font-medium text-secondary rounded-lg text-xs md:text-sm hover:bg-secondary hover:text-white transition-all duration-300 transform hover:scale-105 active:scale-95"
                             >
@@ -103,6 +103,12 @@ defineProps({
         required: true,
     },
 });
+
+function formatCondition(value) {
+    if (value === 'brand_new') return 'Brand new'
+    if (value === 'used') return 'Used'
+    return ''
+}
 </script>
 
 <style scoped>

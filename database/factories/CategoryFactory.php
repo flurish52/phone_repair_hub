@@ -21,6 +21,7 @@ class CategoryFactory extends Factory
         return [
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
+            'user_id' => 0,
             'parent_id' => null,
         ];
     }

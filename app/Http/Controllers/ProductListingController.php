@@ -87,16 +87,17 @@ class ProductListingController extends Controller
 
     public function viewCatProduct($categorySlug)
     {
-        $category = Category::where('slug', $categorySlug)->firstOrFail();
-
-//        $products = Product::with(['category', 'user', 'brand', 'tags', 'variants.images', 'images'])
-//            ->where('category_id', $category->id)
-//            ->inRandomOrder()
-//            ->paginate(52);
-        $products = Product::with(['category', 'user', 'brand', 'tags', 'images',
-            'variants' => fn($q) => $q->where('status', 'active')
-                ->with('images')])
-            ->where('category_id', $category->id)
+        $category = Category::with('children')->where('slug', $categorySlug)->firstOrFail();
+        $categoryIds = $category->children->pluck('id')->push($category->id);
+        $products = Product::with([
+            'category',
+            'user',
+            'brand',
+            'tags',
+            'images',
+            'variants' => fn($q) => $q->where('status', 'active')->with('images')
+        ])
+            ->whereIn('category_id', $categoryIds)
             ->inRandomOrder()
             ->paginate(52);
 

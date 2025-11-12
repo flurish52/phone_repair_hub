@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -35,15 +36,21 @@ class AppServiceProvider extends ServiceProvider
             'categories' => function () {
                 return Category::with('children')
                     ->whereNull('parent_id')
-                    ->withCount('products')
-                    ->has('products')
-                    ->where(function ($query) {
-                        $query->whereNull('user_id')
-                            ->orWhere('user_id', 0);
-                    })
-                    ->orderBy('name')
-                    ->get();
+                    ->get()
+                    ->map(function ($cat) {
+                        // Count products for each child
+                        $cat->children->each(function ($child) {
+                            $child->products_count = Product::where('category_id', $child->id)->count();
+                        });
+
+                        // Count total products (parent + children)
+                        $ids = $cat->children->pluck('id')->push($cat->id);
+                        $cat->products_count = Product::whereIn('category_id', $ids)->count();
+
+                        return $cat;
+                    });
             },
+
 
             'vendors_list' => function () {
                 return User::role('vendor')
